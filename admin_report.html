@@ -1,0 +1,83 @@
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>CHAIN</th>
+            <th>FULL</th>
+            <th>COMPLETE</th>
+            <th>AVAILABLE</th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{ for chain, status in chain_statuses.items() }}
+        <tr>
+            <td>{{ status.chain_code }}</td>
+            <td>{{ status.full}}</td>
+            <td>{{ status.complete}}</td>
+            <td>{{ status.available }}</td>
+            {{ for player_status in status.players }}
+            
+            <td>
+                {{ if player_status.0 == 2 }}
+                <span>■</span>
+                {{ elif player_status.0 == 1 }}
+                <span>◧</span>
+                {{ elif player_status.0 == -1 }}
+                <span>☐</span>
+                {{ elif player_status.0 == 0 }}
+                <span>◰</span>
+                {{ endif }}
+                {{ if player_status.1}}
+                 {{ player_status.1 }}
+                {{ endif }}
+            </td>
+            {{ endfor }}
+
+        </tr>
+        {{ endfor }}
+        
+        {{ for i in uncreated_chains_iterable}}
+        <tr>
+            <td><span class="text-muted"> To be generated </span></td>
+            <td><span class="text-muted">False</span></td>
+            <td><span class="text-muted">False</span></td>
+
+            <td><span class="text-muted">True</span></td>
+            {{ for r in num_gens}}
+                {{ if r == 0}}
+                <td><span class="text-muted">◰</span></td>
+                {{ else }}
+                <td><span class="text-muted">☐</span></td>
+                {{ endif }}
+            {{ endfor }}
+
+            {{ endfor }}
+    </tbody>
+</table>
+■ - Completed,  ◧ - In progress, ◰ - Available slot,  ☐ - Empty <br>
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <th scope="row" class="text-muted">Waiting participants</th>
+            <td>{{ num_waiting }}</td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-muted">Currently available spots</th>
+            <td>{{ spots_available }}</td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-muted">Target number of chains</th>
+            <td>{{ expected_chains }}</td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-muted">Currently started chains</th>
+            <td>{{ total_chains }}</td>
+        </tr>
+    </tbody>
+</table>
+
+{{ include "chaining/admin_refresh_slider.html" }}

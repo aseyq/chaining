@@ -1,0 +1,14 @@
+{{ extends 'otree/WaitPage.html' }}
+{{ block title }}{{ title_text }}{{ endblock }}
+{{ block content }}
+    <h5>We are assigning you to a chain. It make take a few minutes.</h5>
+    <p>
+        Please do not switch to another tab. Otherwise, you may lose your place in the queue or be excluded from the study.
+    </p>
+
+    <script>
+        setInterval(function() {
+            location.reload();
+        }, 10000);  // 10 seconds in milliseconds
+    </script>
+{{ endblock }}

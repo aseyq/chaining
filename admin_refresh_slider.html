@@ -1,0 +1,50 @@
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-primary btn-block" onclick="manualRefresh()">
+                &#8635; Refresh Now
+            </button>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="refreshInterval" class="form-label">Auto Refresh (seconds)</label>
+                <input type="range" class="form-range" id="refreshInterval" min="0" max="30" step="5" oninput="updateRefreshInterval(this.value)">
+                <span id="intervalValue">10</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let autoRefreshInterval;
+    let savedRefreshInterval = parseInt(localStorage.getItem('refreshInterval')) || 10;
+
+    document.getElementById('refreshInterval').value = savedRefreshInterval;
+    document.getElementById('intervalValue').innerText = savedRefreshInterval === 0 ? 'Off' : savedRefreshInterval;
+
+    // Enable auto-refresh initially
+    if (savedRefreshInterval > 0) {
+        autoRefreshInterval = setInterval(function() {
+            location.reload();
+        }, savedRefreshInterval * 1000);
+    }
+
+    function updateRefreshInterval(value) {
+        localStorage.setItem('refreshInterval', value);
+        
+        if (value === '0') {
+            document.getElementById('intervalValue').innerText = 'Off';
+            clearInterval(autoRefreshInterval);
+        } else {
+            document.getElementById('intervalValue').innerText = value;
+            clearInterval(autoRefreshInterval);
+            autoRefreshInterval = setInterval(function() {
+                location.reload();
+            }, value * 1000);
+        }
+    }
+
+    function manualRefresh() {
+        location.reload();
+    }
+</script>
