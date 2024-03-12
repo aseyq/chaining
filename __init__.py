@@ -117,7 +117,7 @@ class MainTask(Page):
             drop_me_from_chain(player, my_chain)
             return
 
-        #complete_player(player, my_chain)
+        complete_player(player, my_chain)
 
     def app_after_this_page(player, upcoming_apps):
         if player.dropped:
@@ -137,7 +137,7 @@ page_sequence = [
                  ChainWait,
                  #BeforeChain, 
                  MainTask, 
-                 #PlayerFinished
+                 PlayerFinished
                  ]
 
 
